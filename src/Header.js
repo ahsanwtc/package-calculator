@@ -25,7 +25,7 @@ const Header = props => {
             <Menu />
           </IconButton>
           <Typography className={classes.title}>Package Calculator</Typography>
-          <Typography>Quote: {clientQuote}</Typography>
+          <Typography variant="h6">Quote: {clientQuote}</Typography>
         </Toolbar>
       </AppBar>
     </Grid>

@@ -63,7 +63,8 @@ function App() {
   const totalCostItems = [travelingCost, videoCost, photoCost, droneCost, usbCost, albumCost, videoEditingCost];
   const totalCost = calculateTotalCost(totalCostItems);
 
-  const clientQuote = totalCost + parseInt(cost.wage);
+  const totalWage = parseInt(cost.wage) * parseInt(number.days);
+  const clientQuote = totalCost + totalWage;
 
   useEffect(() => {
     const t = getNewTravelingArray({ days: parseInt(number.days), traveling });
@@ -108,7 +109,7 @@ function App() {
             <Grid item xs={12} sm={8}>
               <Content {...number} onInputChange={handleInputOnChange} traveling={traveling}/>
               <Expenses travelingCost={travelingCost} videoCost={videoCost} photoCost={photoCost} videoEditingCost={videoEditingCost}
-                droneCost={droneCost} usbCost={usbCost} albumCost={albumCost} totalCost={totalCost}
+                droneCost={droneCost} usbCost={usbCost} albumCost={albumCost} totalCost={totalCost} clientQuote={clientQuote} totalWage={totalWage}
               />
             </Grid>
             <Grid item xs={false} sm={2}></Grid>
