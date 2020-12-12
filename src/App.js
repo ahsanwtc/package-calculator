@@ -7,6 +7,7 @@ import Header from './Header';
 import Drawer from './Drawer';
 import Expenses from './Expenses';
 import { getNewTravelingArray, calculateTotalCost, calculateExternalCost } from './functions';
+import { Application } from './store';
 
 
 const useStyles = makeStyles(theme => ({
@@ -27,6 +28,8 @@ function App() {
   
   const classes = useStyles();
   const numberRegex = new RegExp(/^[0-9]+$/i);
+
+  const [packageDays, setPackageDays] = useState([{ value: 2, label: 'Number of Days', name: 'number-of-days' }]);
 
   const [cost, setCost] = useState({
     wage: 5000,
@@ -107,7 +110,7 @@ function App() {
           <Grid item container>
             <Grid item xs={false} sm={2}></Grid>
             <Grid item xs={12} sm={8}>
-              <Content {...number} onInputChange={handleInputOnChange} traveling={traveling}/>
+              <Content packageDays={packageDays} {...number} onInputChange={handleInputOnChange} traveling={traveling}/>
               <Expenses travelingCost={travelingCost} videoCost={videoCost} photoCost={photoCost} videoEditingCost={videoEditingCost}
                 droneCost={droneCost} usbCost={usbCost} albumCost={albumCost} totalCost={totalCost} clientQuote={clientQuote} totalWage={totalWage}
               />

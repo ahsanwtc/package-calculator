@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  grid: {
+    marginBottom: theme.spacing(8),
+  }
 }));
 
 const Header = props => {
@@ -18,8 +21,8 @@ const Header = props => {
   const { onMenuButtonClick, clientQuote } = props;
 
   return (
-    <Grid item>
-      <AppBar position='static'>
+    <Grid item className={classes.grid}>
+      <AppBar position='fixed'>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onMenuButtonClick}>
             <Menu />

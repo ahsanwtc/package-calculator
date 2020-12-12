@@ -2,6 +2,9 @@ import React from 'react';
 import { Drawer, List, ListItem, TextField, IconButton, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChevronLeft } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Application } from './store';
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -16,6 +19,8 @@ const useStyles = makeStyles(theme => ({
 
 const DrawerComponent = props => {
   const classes = useStyles();
+  const pricelist = useSelector(Application.Selectors.getPricelist);
+  
   const { wage, videoCamera, photoCamera, album, usb, drone, videoEditing, onMenuButtonClick, menuOpen, onInputChange } = props;
 
   return (
@@ -28,7 +33,7 @@ const DrawerComponent = props => {
       <Divider />
       <List>
         <ListItem>
-          <TextField variant="outlined" label="My Wage" fullWidth value={wage} name="cost-wage" onChange={onInputChange} />
+          <TextField variant="outlined" label="My Wage" fullWidth value={pricelist.wage} name="cost-wage" onChange={onInputChange} />
         </ListItem>
         <ListItem>
           <TextField variant="outlined" label="Single Videocamera Cost" fullWidth value={videoCamera} name="cost-videoCamera" onChange={onInputChange} />
