@@ -27,14 +27,16 @@ const Content = () => {
   const travelling = useSelector(Application.Selectors.getExpense(EXPENSES.travelling));
   const videoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.videoCamera));
   const photoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.photoCamera));
+  const drones = useSelector(Application.Selectors.getExpense(EXPENSES.drone));
   
   return (
     <form className={classes.form} autoComplete="off">
       <Grid container spacing={2} direction="row">
         <ItemCard full title="Total number of Days in this Package" item={[packageDays]} />
-        <ItemCard title="Travelling cost" item={travelling} />
-        <ItemCard title="Videocameras cost" item={videoCameras} />
-        <ItemCard title="Photocameras cost" item={photoCameras} />
+        <ItemCard title="Travelling cost" item={travelling} priceBreakdown/>
+        <ItemCard title="Videocameras cost" item={videoCameras} priceBreakdown />
+        <ItemCard title="Photocameras cost" item={photoCameras} priceBreakdown/>
+        <ItemCard title="Drone cost" item={drones} priceBreakdown/>
         <ItemCard deliverable title="Deliverables" />
       </Grid>
     </form>

@@ -4,9 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getDispatchParams } from './functions';
+import { getDispatchParams, calculateExternalCost } from './functions';
 import { Application } from './store';
-import { STRINGS } from './constants';
+import { DEFAULT_PRICELIST, EXPENSES, STRINGS } from './constants';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -22,10 +22,12 @@ const ItemCard = props => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const deliverables = useSelector(Application.Selectors.getDeliverables);  
-  const { title, full: f, deliverable: d, item } = props;
+  const { title, full: f, deliverable: d, item, priceBreakdown: pd } = props;
   const full = (f !== undefined && f !== null) ? f : false;
   const deliverable = (d !== undefined && d !== null) ? d : false;
-  let items = null;
+  const priceBreakdown = (pd !== undefined && pd !== null) ? pd : false;
+
+  let items = null, breakdown = [];
   
   const gridItemProps = { item: true, xs: 12, lg: 3 };
   if (full) { gridItemProps.lg = 12; } else { gridItemProps.sm = 6; }
@@ -43,8 +45,18 @@ const ItemCard = props => {
   if (item) {
     items = item.map((i, index) => {
       const { name, label, value } = i;
+      if (priceBreakdown) {
+        const n = name.split('-');
+        const price = n[1] === EXPENSES.travelling ? 1 : DEFAULT_PRICELIST[n[1]];
+        breakdown.push(
+          <Grid item key={`breakdown-${name}`}>
+            <Typography variant="caption">Cost on day {index + 1}: {calculateExternalCost({ expense: [i], price })}</Typography>
+          </Grid>
+        );
+      }
+
       return (
-        <Grid key={`${name}-${index}`} {...gridItemProps}>
+        <Grid key={`${name}-${index}`} {...gridItemProps} item>
           <TextField variant="outlined" label={label} fullWidth name={name} onChange={onChange} onFocus={onFocus} value={value}/>        
         </Grid>
       );
@@ -55,7 +67,7 @@ const ItemCard = props => {
     items = [];
     for (const d of Object.keys(deliverables)) {
       items.push (
-        <Grid key={`deliverable-${d}`} {...gridItemProps}>
+        <Grid key={`deliverable-${d}`} {...gridItemProps} item>
           <TextField variant="outlined" label={STRINGS[d].label} fullWidth name={STRINGS[d].name} onChange={onChange} onFocus={onFocus} value={deliverables[d]}/>        
         </Grid>
       );
@@ -71,6 +83,9 @@ const ItemCard = props => {
           </Typography>
           <Grid container spacing={2} direction="row">
             {items}
+          </Grid>
+          <Grid container direction="column">
+            {breakdown}
           </Grid>
         </CardContent>
       </Card>

@@ -56,64 +56,62 @@ function App() {
 
   const [traveling, setTraveling] = useState([]);
 
-  const travelingCost = calculateTotalCost(traveling);
-  const videoCost = calculateExternalCost({ days: number.days, number: number.videoCameras, cost: cost.videoCamera });
-  const videoEditingCost = calculateExternalCost({ days: number.days, number: number.videoCameras, cost: cost.videoEditing });
-  const photoCost = calculateExternalCost({ days: number.days, number: number.photoCameras, cost: cost.photoCamera });
-  const droneCost = calculateExternalCost({ days: number.days, number: number.drones, cost: cost.drone });
-  const usbCost = calculateExternalCost({ days: number.days, number: number.usbs, cost: cost.usb });
-  const albumCost = calculateExternalCost({ days: number.days, number: number.albums, cost: cost.album });  
-  const totalCostItems = [travelingCost, videoCost, photoCost, droneCost, usbCost, albumCost, videoEditingCost];
-  const totalCost = calculateTotalCost(totalCostItems);
+  // const travelingCost = calculateTotalCost(traveling);
+  // const videoCost = calculateExternalCost({ days: number.days, number: number.videoCameras, cost: cost.videoCamera });
+  // const videoEditingCost = calculateExternalCost({ days: number.days, number: number.videoCameras, cost: cost.videoEditing });
+  // const photoCost = calculateExternalCost({ days: number.days, number: number.photoCameras, cost: cost.photoCamera });
+  // const droneCost = calculateExternalCost({ days: number.days, number: number.drones, cost: cost.drone });
+  // const usbCost = calculateExternalCost({ days: number.days, number: number.usbs, cost: cost.usb });
+  // const albumCost = calculateExternalCost({ days: number.days, number: number.albums, cost: cost.album });  
+  // const totalCostItems = [travelingCost, videoCost, photoCost, droneCost, usbCost, albumCost, videoEditingCost];
+  const totalCost = 1000;// calculateTotalCost(totalCostItems);
 
   const totalWage = parseInt(cost.wage) * parseInt(number.days);
   const clientQuote = totalCost + totalWage;
 
-  useEffect(() => {
-    const t = getNewTravelingArray({ days: parseInt(number.days), traveling });
-    setTraveling(t);
-  }, [number.days, traveling]);
+  // useEffect(() => {
+  //   const t = getNewTravelingArray({ days: parseInt(number.days), traveling });
+  //   setTraveling(t);
+  // }, [number.days, traveling]);
 
 
   const handleMenuButtonClick = () => {
     setState({ ...state, menuOpen: !state.menuOpen });
   };
 
-  const handleInputOnChange = ({ target: { name, value }}) => {
-    if (numberRegex.test(value) || value.length === 0) {
-      const nameArray = name.split('-');
-      switch(nameArray[0]) {
-        case 'cost': {
-          setCost({ ...cost, [nameArray[1]]: value });
-          break;
-        }
-        case 'number': {
-          setNumber({ ...number, [nameArray[1]]: value });
-          break;
-        }
-        case 'traveling': {
-          traveling[parseInt(nameArray[1])] = value;
-          setTraveling([...traveling]);
-          break;
-        }
-        default:
-      }
-    }
-  };
+  // const handleInputOnChange = ({ target: { name, value }}) => {
+  //   if (numberRegex.test(value) || value.length === 0) {
+  //     const nameArray = name.split('-');
+  //     switch(nameArray[0]) {
+  //       case 'cost': {
+  //         setCost({ ...cost, [nameArray[1]]: value });
+  //         break;
+  //       }
+  //       case 'number': {
+  //         setNumber({ ...number, [nameArray[1]]: value });
+  //         break;
+  //       }
+  //       case 'traveling': {
+  //         traveling[parseInt(nameArray[1])] = value;
+  //         setTraveling([...traveling]);
+  //         break;
+  //       }
+  //       default:
+  //     }
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={theme}>      
       <Paper className={classes.root}>
-        <Drawer {...cost} {...state} onMenuButtonClick={handleMenuButtonClick} onInputChange={handleInputOnChange} />
+        <Drawer {...cost} {...state} onMenuButtonClick={handleMenuButtonClick} />
         <Grid container direction="column">
-          <Header onMenuButtonClick={handleMenuButtonClick} clientQuote={clientQuote}/>
+          <Header onMenuButtonClick={handleMenuButtonClick}/>
           <Grid item container>
             <Grid item xs={false} sm={2}></Grid>
             <Grid item xs={12} sm={8}>
-              <Content packageDays={packageDays} {...number} onInputChange={handleInputOnChange} traveling={traveling}/>
-              <Expenses travelingCost={travelingCost} videoCost={videoCost} photoCost={photoCost} videoEditingCost={videoEditingCost}
-                droneCost={droneCost} usbCost={usbCost} albumCost={albumCost} totalCost={totalCost} clientQuote={clientQuote} totalWage={totalWage}
-              />
+              <Content />
+              <Expenses />
             </Grid>
             <Grid item xs={false} sm={2}></Grid>
           </Grid>

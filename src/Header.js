@@ -2,6 +2,9 @@ import React from 'react';
 import { Grid, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
+import { useSelector } from 'react-redux';
+
+import { Application } from './store';
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +21,8 @@ const useStyles = makeStyles(theme => ({
 
 const Header = props => {
   const classes = useStyles();
-  const { onMenuButtonClick, clientQuote } = props;
+  const clientQuote = useSelector(Application.Selectors.getClientQuote);  
+  const { onMenuButtonClick } = props;
 
   return (
     <Grid item className={classes.grid}>

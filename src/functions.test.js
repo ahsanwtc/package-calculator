@@ -50,11 +50,26 @@ describe('Tests for calculateTotalCost', () => {
 });
 
 describe('Tests for calculateExternalCost', () => {
-  it('returns correct camera expense', () => {
-    const days = 3, number = 3, cost = 5000;
-    const result = calculateExternalCost({ days, number, cost });
-    expect(result).toEqual(45000);
+  it('returns correct travelling expense', () => {
+    const expense = [
+      { value: 2000, label: 'Cost day 1', name: 'price-travelling-1' },
+      { value: 3000, label: 'Cost day 2', name: 'price-travelling-2' },
+      { value: 4000, label: 'Cost day 3', name: 'price-travelling-3' }
+    ];
+    const result = calculateExternalCost({ expense });
+    expect(result).toEqual(9000);
   });
+
+  it('returns correct video camera expense', () => {
+    const expense = [
+      { value: 2 },
+      { value: 1 },
+      { value: 0 }
+    ];
+    const result = calculateExternalCost({ expense, price: 5000 });
+    expect(result).toEqual(15000);
+  });
+
 });
 
 

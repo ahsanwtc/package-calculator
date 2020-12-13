@@ -20,7 +20,8 @@ const slice = createSlice({
     deliverables: {
       usb: 1,
       album: 1
-    }
+    },
+    clientQuote: 0
   },
   reducers: {
     packageDaysUpdated: (app, action) => {
@@ -43,21 +44,33 @@ const slice = createSlice({
     deliverablesUpdated: (app, action) => {
       const { payload: { expense, value }} = action;
       app.deliverables[expense] = parseInt(value);
+    },
+    pricelistUpdated: (app, action) => {
+      const { payload: { expense, value }} = action;
+      app.pricelist[expense] = parseInt(value);
+    },
+    clientQuoteUpdated: (app, action) => {
+      const { payload: { quote }} = action;
+      app.clientQuote = parseInt(quote);
     }
   }
 });
 
-const { packageDaysUpdated, expenseUpdated, deliverablesUpdated } = slice.actions;
+const { packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated } = slice.actions;
 export default slice.reducer;
 
 const setPackageDays = ({ value }) => packageDaysUpdated({ value });
 const updateExpense = ({ expense, value, index }) => expenseUpdated({ expense, value, index });
 const updateDeliverable = ({ expense, value }) => deliverablesUpdated({ expense, value });
+const updatePricelist = ({ expense, value }) => pricelistUpdated({ expense, value });
+const updateClientQuote = quote => clientQuoteUpdated({ quote });
 
 export const Actions = {
   updateExpense,
   setPackageDays,
-  updateDeliverable
+  updatePricelist,
+  updateClientQuote,
+  updateDeliverable,
 };
 
 const appSelector = state => state.entities.app;
@@ -87,10 +100,16 @@ const getDeliverables = createSelector(
   app => app.deliverables
 );
 
+const getClientQuote = createSelector(
+  appSelector,
+  app => app.clientQuote
+);
+
 export const Selectors = {
   getExpense,
   getPricelist,
   getTravelling,
+  getClientQuote,
   getPackageDays,
-  getDeliverables,
+  getDeliverables
 };

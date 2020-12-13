@@ -5,6 +5,7 @@ import { ChevronLeft } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Application } from './store';
+import { getDispatchParams } from './functions';
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -19,9 +20,20 @@ const useStyles = makeStyles(theme => ({
 
 const DrawerComponent = props => {
   const classes = useStyles();
-  const pricelist = useSelector(Application.Selectors.getPricelist);
-  
-  const { wage, videoCamera, photoCamera, album, usb, drone, videoEditing, onMenuButtonClick, menuOpen, onInputChange } = props;
+  const dispatch = useDispatch();
+  const pricelist = useSelector(Application.Selectors.getPricelist);  
+  const { onMenuButtonClick, menuOpen } = props;
+  const { wage, videoCamera, photoCamera, album, usb, drone, videoEditing} = pricelist;
+
+  const onChange = ({ target: { name, value }}) => {
+    console.log(name, value);
+    const state = getDispatchParams({ name, value });
+    console.log(state)
+    if (state) {
+      const { index, expense } = state;
+      dispatch(Application.Actions[state.dispatch]({ index, value, expense }));
+    }
+  };
 
   return (
     <Drawer anchor="left" open={menuOpen}>
@@ -33,25 +45,25 @@ const DrawerComponent = props => {
       <Divider />
       <List>
         <ListItem>
-          <TextField variant="outlined" label="My Wage" fullWidth value={pricelist.wage} name="cost-wage" onChange={onInputChange} />
+          <TextField variant="outlined" label="My Wage" fullWidth value={wage} name="cost-wage" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="Single Videocamera Cost" fullWidth value={videoCamera} name="cost-videoCamera" onChange={onInputChange} />
+          <TextField variant="outlined" label="Single Videocamera Cost" fullWidth value={videoCamera} name="cost-videoCamera" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="Video Editing Cost" fullWidth value={videoEditing} name="cost-videoEditing" onChange={onInputChange} />
+          <TextField variant="outlined" label="Video Editing Cost" fullWidth value={videoEditing} name="cost-videoEditing" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="Single Photocamera Cost" fullWidth value={photoCamera} name="cost-photoCamera" onChange={onInputChange} />
+          <TextField variant="outlined" label="Single Photocamera Cost" fullWidth value={photoCamera} name="cost-photoCamera" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="Drone Cost" fullWidth value={drone} name="cost-drone" onChange={onInputChange} />
+          <TextField variant="outlined" label="Drone Cost" fullWidth value={drone} name="cost-drone" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="Album Cost" fullWidth value={album} name="cost-album" onChange={onInputChange} />
+          <TextField variant="outlined" label="Album Cost" fullWidth value={album} name="cost-album" onChange={onChange} />
         </ListItem>
         <ListItem>
-          <TextField variant="outlined" label="USB Cost" fullWidth value={usb} name="cost-usb" onChange={onInputChange} />
+          <TextField variant="outlined" label="USB Cost" fullWidth value={usb} name="cost-usb" onChange={onChange} />
         </ListItem>
       </List>
     </Drawer>

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { red, green } from '@material-ui/core/colors';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Application } from './store';
+import { calculateExternalCost, calculateTotalCost } from './functions';
+import { EXPENSES } from './constants';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,9 +22,36 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Expenses = props => {
+const Expenses = () => {
   const classes = useStyles();
-  const { travelingCost, videoCost, photoCost, droneCost, usbCost, albumCost, videoEditingCost, totalCost, clientQuote, totalWage } = props;
+  const dispatch = useDispatch();
+
+  const packageDays = useSelector(Application.Selectors.getPackageDays);
+  const pricelist = useSelector(Application.Selectors.getPricelist);
+  const travelling = useSelector(Application.Selectors.getExpense(EXPENSES.travelling));
+  const videoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.videoCamera));
+  const photoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.photoCamera));
+  const drones = useSelector(Application.Selectors.getExpense(EXPENSES.drone));
+  const deliverables = useSelector(Application.Selectors.getDeliverables);
+
+  const totalTravellingCost = calculateExternalCost({ expense: travelling });
+  const totalVideoCost = calculateExternalCost({ expense: videoCameras, price: pricelist.videoCamera });
+  const totalVideoEditingCost = calculateExternalCost({ expense: videoCameras, price: pricelist.videoEditing });
+  const totalPhotoCost = calculateExternalCost({ expense: photoCameras, price: pricelist.photoCamera });
+  const totalDroneCost = calculateExternalCost({ expense: drones, price: pricelist.drone });
+  const totalUSBCost = calculateExternalCost({ expense: [{ value: deliverables.usb }], price: pricelist.usb });
+  const totalAlbumCost = calculateExternalCost({ expense: [{ value: deliverables.album }], price: pricelist.album });
+
+  const totalWage = parseInt(pricelist.wage) * parseInt(packageDays.value);
+  const totalCostItems = [
+    totalTravellingCost, totalVideoCost, totalVideoEditingCost, totalPhotoCost, totalDroneCost, totalUSBCost, totalAlbumCost
+  ];
+  const totalCost = calculateTotalCost(totalCostItems);
+  const clientQuote = totalCost + totalWage;
+
+  useEffect(() => {
+    dispatch(Application.Actions.updateClientQuote(clientQuote));
+  }, [clientQuote, dispatch]);
 
   return (
     <React.Fragment>
@@ -35,13 +67,13 @@ const Expenses = props => {
         <Card className={classes.cardRed}>
           <CardContent>
             <Typography variant="h4">Total Expense: {totalCost}</Typography>
-            <Typography>Total Traveling Cost: {travelingCost}</Typography>
-            <Typography>Total Video Camera Cost: {videoCost}</Typography>
-            <Typography>Total Video Editing Cost: {videoEditingCost}</Typography>
-            <Typography>Total Photo Camera Cost: {photoCost}</Typography>
-            <Typography>Total Drone Cost: {droneCost}</Typography>
-            <Typography>Total USB Cost: {usbCost}</Typography>
-            <Typography>Total Album Cost: {albumCost}</Typography>
+            <Typography>Total Traveling Cost: {totalTravellingCost}</Typography>
+            <Typography>Total Video Camera Cost: {totalVideoCost}</Typography>
+            <Typography>Total Video Editing Cost: {totalVideoEditingCost}</Typography>
+            <Typography>Total Photo Camera Cost: {totalPhotoCost}</Typography>
+            <Typography>Total Drone Cost: {totalDroneCost}</Typography>
+            <Typography>Total USB Cost: {totalUSBCost}</Typography>
+            <Typography>Total Album Cost: {totalAlbumCost}</Typography>
           </CardContent>
         </Card>
       </Grid>

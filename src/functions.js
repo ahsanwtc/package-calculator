@@ -17,7 +17,12 @@ export const calculateTotalCost = (items = []) => {
   }, 0);
 };
 
-export const calculateExternalCost = ({ days, number, cost }) => parseInt(days) * parseInt(number) * parseInt(cost);
+// export const calculateExternalCost = ({ days, number, cost }) => parseInt(days) * parseInt(number) * parseInt(cost);
+export const calculateExternalCost = ({ expense = [], price = 1 }) => {
+  return expense.reduce((total, current) => {
+    return total + parseInt(current.value) * parseInt(price);
+  }, 0);
+};
 
 export const getDispatchParams = ({ name, value }) => {
   const numberRegex = new RegExp(/^[0-9]+$/i);
@@ -28,8 +33,8 @@ export const getDispatchParams = ({ name, value }) => {
     const index = parseInt(nameArray[2]) - 1;
 
     switch(type) {
-      case 'price': {
-        dispatch = 'updateExpense';
+      case 'cost': {
+        dispatch = 'updatePricelist';
         break;
       }
       case 'days': {
