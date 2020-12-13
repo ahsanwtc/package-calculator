@@ -21,7 +21,12 @@ const slice = createSlice({
       usb: 1,
       album: 1
     },
-    clientQuote: 0
+    clientQuote: 0,
+    client: {
+      name: '',
+      phone: '',
+    },
+    advance: 0
   },
   reducers: {
     packageDaysUpdated: (app, action) => {
@@ -52,11 +57,21 @@ const slice = createSlice({
     clientQuoteUpdated: (app, action) => {
       const { payload: { quote }} = action;
       app.clientQuote = parseInt(quote);
+    },
+    advancePaid: (app, action) => {
+      const { payload: { advance }} = action;
+      app.advance = parseInt(advance);
+    },
+    clientUpdated: (app, action) => {
+      const { payload: { key, value }} = action;
+      app.client[key] = value;
     }
   }
 });
 
-const { packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated } = slice.actions;
+const { 
+  packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated, advancePaid, clientUpdated
+} = slice.actions;
 export default slice.reducer;
 
 const setPackageDays = ({ value }) => packageDaysUpdated({ value });
@@ -64,8 +79,12 @@ const updateExpense = ({ expense, value, index }) => expenseUpdated({ expense, v
 const updateDeliverable = ({ expense, value }) => deliverablesUpdated({ expense, value });
 const updatePricelist = ({ expense, value }) => pricelistUpdated({ expense, value });
 const updateClientQuote = quote => clientQuoteUpdated({ quote });
+const payAdvance = ({ value }) => advancePaid({ advance: value });
+const updateClient = ({ key, value }) => clientUpdated({ key, value });
 
 export const Actions = {
+  payAdvance,
+  updateClient,
   updateExpense,
   setPackageDays,
   updatePricelist,
@@ -105,11 +124,23 @@ const getClientQuote = createSelector(
   app => app.clientQuote
 );
 
+const getAdvancePayment = createSelector(
+  appSelector,
+  app => app.advance
+);
+
+const getClient = createSelector(
+  appSelector,
+  app => app.client
+);
+
 export const Selectors = {
+  getClient,
   getExpense,
   getPricelist,
   getTravelling,
   getClientQuote,
   getPackageDays,
-  getDeliverables
+  getDeliverables,
+  getAdvancePayment
 };

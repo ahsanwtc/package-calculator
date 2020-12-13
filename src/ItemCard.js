@@ -22,17 +22,23 @@ const ItemCard = props => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const deliverables = useSelector(Application.Selectors.getDeliverables);  
-  const { title, full: f, deliverable: d, item, priceBreakdown: pd } = props;
+  const { title, full: f, deliverable: d, item, priceBreakdown: pd, client: c } = props;
   const full = (f !== undefined && f !== null) ? f : false;
   const deliverable = (d !== undefined && d !== null) ? d : false;
   const priceBreakdown = (pd !== undefined && pd !== null) ? pd : false;
+  const client = (c !== undefined && c !== null) ? c : false;
 
   let items = null, breakdown = [];
   
   const gridItemProps = { item: true, xs: 12, lg: 3 };
   if (full) { gridItemProps.lg = 12; } else { gridItemProps.sm = 6; }
 
-  const onChange = ({ target: { name, value }}) => {
+  if (client) {
+    gridItemProps.sm = 6;
+    gridItemProps.lg = 6;
+  }
+
+  const onChange = ({ target, target: { name, value }}) => {
     const state = getDispatchParams({ name, value });
     if (state) {
       const { index, expense } = state;
