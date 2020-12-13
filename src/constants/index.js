@@ -15,6 +15,8 @@ export const STRINGS = {
   usb: { label: `Number of USBs`, name: `quantity-deliverable-usb` },
   album: { label: `Number of Albums`, name: `quantity-deliverable-album` },
   advance: { label: `Amount paid as Advance`, name: `advance` },
+  clientName: { label: 'Name of the client', name: 'client-name' },
+  clientPhone: { label: 'Phone number of the client', name: 'client-phone' }
 };
 
 export const DEFAULT_PRICELIST = {

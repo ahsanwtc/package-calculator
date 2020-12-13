@@ -22,6 +22,10 @@ const slice = createSlice({
       album: 1
     },
     clientQuote: 0,
+    client: {
+      name: '',
+      phone: '',
+    },
     advance: 0
   },
   reducers: {
@@ -57,12 +61,16 @@ const slice = createSlice({
     advancePaid: (app, action) => {
       const { payload: { advance }} = action;
       app.advance = parseInt(advance);
+    },
+    clientUpdated: (app, action) => {
+      const { payload: { key, value }} = action;
+      app.client[key] = value;
     }
   }
 });
 
 const { 
-  packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated, advancePaid
+  packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated, advancePaid, clientUpdated
 } = slice.actions;
 export default slice.reducer;
 
@@ -72,9 +80,11 @@ const updateDeliverable = ({ expense, value }) => deliverablesUpdated({ expense,
 const updatePricelist = ({ expense, value }) => pricelistUpdated({ expense, value });
 const updateClientQuote = quote => clientQuoteUpdated({ quote });
 const payAdvance = ({ value }) => advancePaid({ advance: value });
+const updateClient = ({ key, value }) => clientUpdated({ key, value });
 
 export const Actions = {
   payAdvance,
+  updateClient,
   updateExpense,
   setPackageDays,
   updatePricelist,
@@ -119,7 +129,13 @@ const getAdvancePayment = createSelector(
   app => app.advance
 );
 
+const getClient = createSelector(
+  appSelector,
+  app => app.client
+);
+
 export const Selectors = {
+  getClient,
   getExpense,
   getPricelist,
   getTravelling,
