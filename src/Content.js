@@ -6,7 +6,7 @@ import { blue } from '@material-ui/core/colors';
 
 import { Application } from './store';
 import ItemCard from './ItemCard';
-import { EXPENSES } from './constants';
+import { EXPENSES, STRINGS } from './constants';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -28,6 +28,7 @@ const Content = () => {
   const videoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.videoCamera));
   const photoCameras = useSelector(Application.Selectors.getExpense(EXPENSES.photoCamera));
   const drones = useSelector(Application.Selectors.getExpense(EXPENSES.drone));
+  const advance = useSelector(Application.Selectors.getAdvancePayment);
   
   return (
     <form className={classes.form} autoComplete="off">
@@ -38,6 +39,7 @@ const Content = () => {
         <ItemCard title="Photocameras cost" item={photoCameras} priceBreakdown/>
         <ItemCard title="Drone cost" item={drones} priceBreakdown/>
         <ItemCard deliverable title="Deliverables" />
+        <ItemCard full title="Advance payment" item={[{ value: advance, label: STRINGS.advance.label, name: STRINGS.advance.name }]} />
       </Grid>
     </form>
   );

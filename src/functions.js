@@ -50,6 +50,10 @@ export const getDispatchParams = ({ name, value }) => {
         }
         break;
       }
+      case 'advance': {
+        dispatch = 'payAdvance';
+        break;
+      }
       default:
         return null;
     }

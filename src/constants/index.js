@@ -14,6 +14,7 @@ export const STRINGS = {
   [EXPENSES.drone]: { label: `Drones on day ${PLACEHOLDER}`, name: `quantity-${EXPENSES.drone}-${PLACEHOLDER}` },
   usb: { label: `Number of USBs`, name: `quantity-deliverable-usb` },
   album: { label: `Number of Albums`, name: `quantity-deliverable-album` },
+  advance: { label: `Amount paid as Advance`, name: `advance` },
 };
 
 export const DEFAULT_PRICELIST = {
