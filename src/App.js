@@ -10,8 +10,8 @@ import Expenses from './Expenses';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100vw',
-    height: '100vh',
+    // width: '100vw',
+    height: '100%',
     spacing: 0,
     justify: 'space-around'
   },
