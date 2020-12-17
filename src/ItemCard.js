@@ -38,7 +38,7 @@ const ItemCard = props => {
     gridItemProps.lg = 6;
   }
 
-  const onChange = ({ target, target: { name, value }}) => {
+  const onChange = ({ target: { name, value }}) => {
     const state = getDispatchParams({ name, value });
     if (state) {
       const { index, expense } = state;

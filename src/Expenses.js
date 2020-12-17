@@ -34,6 +34,7 @@ const Expenses = () => {
   const drones = useSelector(Application.Selectors.getExpense(EXPENSES.drone));
   const deliverables = useSelector(Application.Selectors.getDeliverables);
   const advance = useSelector(Application.Selectors.getAdvancePayment);
+  const extra = useSelector(Application.Selectors.getExtra);
 
   const totalTravellingCost = calculateExternalCost({ expense: travelling });
   const totalVideoCost = calculateExternalCost({ expense: videoCameras, price: pricelist.videoCamera });
@@ -48,7 +49,7 @@ const Expenses = () => {
     totalTravellingCost, totalVideoCost, totalVideoEditingCost, totalPhotoCost, totalDroneCost, totalUSBCost, totalAlbumCost
   ];
   const totalCost = calculateTotalCost(totalCostItems);
-  const clientQuote = totalCost + totalWage - advance;
+  const clientQuote = totalCost + totalWage - advance + extra;
 
   useEffect(() => {
     dispatch(Application.Actions.updateClientQuote(clientQuote));

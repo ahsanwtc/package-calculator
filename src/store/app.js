@@ -26,7 +26,8 @@ const slice = createSlice({
       name: '',
       phone: '',
     },
-    advance: 0
+    advance: 0,
+    extra: 0,
   },
   reducers: {
     packageDaysUpdated: (app, action) => {
@@ -65,12 +66,16 @@ const slice = createSlice({
     clientUpdated: (app, action) => {
       const { payload: { key, value }} = action;
       app.client[key] = value;
+    },
+    extraAdded: (app, action) => {
+      const { payload: { extra }} = action;
+      app.extra = parseInt(extra);
     }
   }
 });
 
 const { 
-  packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated, advancePaid, clientUpdated
+  packageDaysUpdated, expenseUpdated, deliverablesUpdated, pricelistUpdated, clientQuoteUpdated, advancePaid, clientUpdated, extraAdded
 } = slice.actions;
 export default slice.reducer;
 
@@ -81,8 +86,10 @@ const updatePricelist = ({ expense, value }) => pricelistUpdated({ expense, valu
 const updateClientQuote = quote => clientQuoteUpdated({ quote });
 const payAdvance = ({ value }) => advancePaid({ advance: value });
 const updateClient = ({ key, value }) => clientUpdated({ key, value });
+const addExtra = ({ value }) => extraAdded({ extra: value });
 
 export const Actions = {
+  addExtra,
   payAdvance,
   updateClient,
   updateExpense,
@@ -134,7 +141,13 @@ const getClient = createSelector(
   app => app.client
 );
 
+const getExtra = createSelector(
+  appSelector,
+  app => app.extra
+);
+
 export const Selectors = {
+  getExtra,
   getClient,
   getExpense,
   getPricelist,

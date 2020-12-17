@@ -8,7 +8,7 @@ export const EXPENSES = {
 export const PLACEHOLDER = '{placeholder}';
 
 export const STRINGS = {
-  [EXPENSES.travelling]: { label: `Cost day ${PLACEHOLDER}`, name: `price-${EXPENSES.travelling}-${PLACEHOLDER}` },
+  [EXPENSES.travelling]: { label: `Cost day ${PLACEHOLDER}`, name: `quantity-${EXPENSES.travelling}-${PLACEHOLDER}` },
   [EXPENSES.videoCamera]: { label: `Videocams on day ${PLACEHOLDER}`, name: `quantity-${EXPENSES.videoCamera}-${PLACEHOLDER}` },
   [EXPENSES.photoCamera]: { label: `Photocams on day ${PLACEHOLDER}`, name: `quantity-${EXPENSES.photoCamera}-${PLACEHOLDER}` },
   [EXPENSES.drone]: { label: `Drones on day ${PLACEHOLDER}`, name: `quantity-${EXPENSES.drone}-${PLACEHOLDER}` },
